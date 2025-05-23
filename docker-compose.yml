@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - ./config.example.yaml:/etc/bridgr/config.yaml
+      - go-mod-cache:/go/pkg/mod
+    environment:
+      - REDIS_ADDRESS=redis:6379
+      - REDIS_PASSWORD=password
+      - REDIS_DB=0
+      - REDIS_TTL=168h
+      - LOG_LEVEL=debug
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass password
+    volumes:
+      - redis-data:/data
+
+volumes:
+  go-mod-cache:
+  redis-data: 
