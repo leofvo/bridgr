@@ -1,0 +1,31 @@
+groups:
+  - name: "tech-news"
+    sources:
+      - type: "rss"
+        url: "https://example.com/feed.xml"
+        interval: "5m"
+    exporters:
+      - type: "webhook"
+        value: "https://discord.com/api/webhooks/..."
+        options:
+          format: "discord"
+        rate_limit:
+          requests_per_second: 2.0
+  - name: "security-alerts"
+    sources:
+      - type: "rss"
+        url: "https://security.example.com/feed.xml"
+        interval: "1m"
+    exporters:
+      - type: "webhook"
+        value: "https://xxx.webhook.office.com/webhookb2/..."
+        options:
+          format: "teams"
+          
+redis:
+  address: "redis:6379"
+  password: "password"
+  db: 0
+  ttl: "168h"  # 7 days
+server:
+  port: 8080
